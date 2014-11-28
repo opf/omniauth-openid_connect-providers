@@ -10,8 +10,8 @@ describe OmniAuth::OpenIDConnect::Providers do
           secret: 'fat'
         },
         :heroku => {
-          identifier: 'chuchu',
-          secret: 'doesthetrain'
+          'identifier' => 'chuchu',
+          'secret' => 'doesthetrain'
         },
         'google.staging' => {
           identifier: 'cowboy',
