@@ -37,7 +37,8 @@ describe OmniAuth::OpenIDConnect::Provider do
           end
 
           it 'is the configured uri' do
-            expect(provider.to_h[:client_options][:redirect_uri]).to eq 'https://freelunch.com/oidc/test/callback'
+            expect(provider.to_h[:client_options][:redirect_uri])
+              .to eq 'https://freelunch.com/oidc/test/callback'
           end
         end
       end
@@ -51,7 +52,8 @@ describe OmniAuth::OpenIDConnect::Provider do
 
         it 'includes the correctly constructed callback URL' do
           expect{provider.to_h}.not_to raise_error
-          expect(provider.to_h[:client_options][:redirect_uri]).to eq 'https://umpalum.pa/auth/test/callback'
+          expect(provider.to_h[:client_options][:redirect_uri])
+            .to eq 'https://umpalum.pa/auth/test/callback'
         end
       end
     end

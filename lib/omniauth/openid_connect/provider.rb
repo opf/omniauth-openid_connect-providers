@@ -1,16 +1,19 @@
 module OmniAuth
   module OpenIDConnect
     ##
-    # A Provider allows the configuration of OpenIDConnect a provider based on a simplified, flat hash.
+    # A Provider allows the configuration of OpenIDConnect a provider based on
+    # a simplified, flat hash.
     #
     # To get the final OmniAuth provider option hash simply use #to_h.
     class Provider
       attr_reader :name, :configuration
 
       ##
-      # Creates a new provider instance used to configure an OmniAuth provider for the OpenIDConnect strategy.
+      # Creates a new provider instance used to configure an OmniAuth provider for
+      # the OpenIDConnect strategy.
       #
-      # @param name [String] Provider name making it available under /auth/<name>/callback by default.
+      # @param name [String] Provider name making it available under
+      #                      /auth/<name>/callback by default.
       # @param config [Hash] Hash containing the configuration for this provider as a flat hash.
       def initialize(name, config)
         @name = name
@@ -89,7 +92,8 @@ module OmniAuth
       end
 
       def client_options
-        # keys excluded either because they are already configured or because they are not client options
+        # keys excluded either because they are already configured or
+        # because they are not client options
         excluded_keys = [:identifier, :secret, :redirect_uri, :host] + custom_options.keys
         entries = configuration
           .reject { |key, value| excluded_keys.include? key.to_sym }
@@ -153,7 +157,8 @@ module OmniAuth
       end
 
       ##
-      # Returns the configuration value for the given key or raises an exception if it doesn't exist.
+      # Returns the configuration value for the given key or
+      # raises an exception if it doesn't exist.
       def config(key)
         configuration[key] || error_configure(key)
       end
