@@ -73,7 +73,8 @@ module OmniAuth
           .reject { |key, value| excluded_keys.include? key.to_sym }
           .map { |key, value| [key.to_sym, value] }
 
-        required_client_options.merge(Hash[entries]) # override with configuration
+        # override with configuration
+        ensure_client_option_types! required_client_options.merge(Hash[entries])
       end
 
       def host
@@ -109,6 +110,11 @@ module OmniAuth
       end
 
       private
+
+      def ensure_client_option_types!(opts)
+        opts[:port] = opts[:port].to_i
+        opts
+      end
 
       def error_configure(name)
         msg = <<-MSG

@@ -130,7 +130,7 @@ describe OmniAuth::OpenIDConnect::Provider do
     describe 'client options' do
       let(:config) do
         {
-          port: 1234,
+          port: '1234',
           scheme: 'ftp',
           host: 'example.net',
           identifier: 'chorizo',
