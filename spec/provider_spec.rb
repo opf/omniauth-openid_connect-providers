@@ -5,8 +5,6 @@ describe OmniAuth::OpenIDConnect::Provider do
     describe 'redirect uri' do
       let(:config) do
         {
-          port: 1234,
-          scheme: 'ftp',
           host: 'example.net',
           identifier: 'chorizo',
           secret: 'fat'
@@ -61,8 +59,6 @@ describe OmniAuth::OpenIDConnect::Provider do
     describe 'base and custom options' do
       let(:config) do
         {
-          port: 1234,
-          scheme: 'ftp',
           host: 'example.net',
           identifier: 'chorizo',
           secret: 'fat',
@@ -180,8 +176,6 @@ describe OmniAuth::OpenIDConnect::Provider do
     describe 'host' do
       let(:config) do
         {
-          port: 1234,
-          scheme: 'http',
           identifier: 'chorizo',
           secret: 'fat'
         }
