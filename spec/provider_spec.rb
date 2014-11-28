@@ -176,5 +176,35 @@ describe OmniAuth::OpenIDConnect::Provider do
         end
       end
     end
+
+    describe 'host' do
+      let(:config) do
+        {
+          port: 1234,
+          scheme: 'http',
+          identifier: 'chorizo',
+          secret: 'fat'
+        }
+      end
+
+      let(:provider) { OmniAuth::OpenIDConnect::Provider.new 'foo', config }
+      let(:options) { Hash(provider.to_h[:client_options]) }
+
+      context 'with missing host' do
+        it 'throws an ArgumentError due to the missing host' do
+          expect{options}.to raise_error(/configure host/)
+        end
+      end
+
+      context 'with absolute authorization endpoint' do
+        before do
+          config.merge! authorization_endpoint: 'https://example.org/authorizations'
+        end
+
+        it 'is set implicitly' do
+          expect(options[:host]).to eq 'example.org'
+        end
+      end
+    end
   end
 end
