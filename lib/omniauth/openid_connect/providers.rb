@@ -13,8 +13,8 @@ module OmniAuth
       ##
       # Configures certain global provider settings. (optional)
       def self.configure(base_redirect_uri: nil, custom_options: [])
-        Provider.base_redirect_uri = base_redirect_uri
-        Provider.custom_option_keys = custom_options
+        self.base_redirect_uri = base_redirect_uri
+        self.custom_option_keys = custom_options
       end
 
       ##
@@ -37,10 +37,10 @@ module OmniAuth
       #
       # @param config [Hash] Hash containing the configuration for different providers.
       def self.load(config)
-        providers = config.select do |key, cfg|
+        providers = config.map do |key, cfg|
           provider, name = provider_class_and_name key.to_s
 
-          provider.new cfg if provider
+          provider.new name, cfg if provider && name
         end
 
         providers.compact
@@ -62,12 +62,16 @@ module OmniAuth
       def self.provider_class_and_name(provider_key)
         parts = provider_key.split('.')
 
-        if parts.size == 2
+        if parts.size == 2                                       # explicit provider class
           class_name = parts.first
           provider_name = parts.last
-          provider_class = Provider.all.find { |cl| provider_name(cl.name) == class_name }
+          provider_class = find_provider_class class_name
 
-          [class_name, provider_name]
+          [provider_class, provider_name]
+        elsif provider_class = find_provider_class(provider_key) # provider class == name
+          [provider_class, provider_key]
+        elsif parts.size == 1                                    # implicit default provider class
+          [OmniAuth::OpenIDConnect::Provider, provider_key]
         else
           logger.warn "Skipping invalid provider key: #{provider_key}"
 
@@ -75,8 +79,38 @@ module OmniAuth
         end
       end
 
+      def self.find_provider_class(name)
+        Provider.all.detect { |cl| provider_name(cl.name) == name }
+      end
+
       def self.provider_name(class_name)
         class_name.split('::').last.downcase
+      end
+
+      ##
+      # Sets custom options that may be configured for a provider.
+      # If a key ends with a '?' it is optional, otherwise it is required.
+      #
+      # Example:
+      #
+      #     # Enable custom options. Display name is required and icon is optional.
+      #     Provider.custom_options = [:display_name, :icon?]
+      #
+      # @param keys [Array] List of symbols indicating required or optional custom options.
+      def self.custom_option_keys=(keys)
+        @custom_option_keys = keys
+      end
+
+      def self.custom_option_keys
+        @custom_option_keys ||= []
+      end
+
+      def self.base_redirect_uri=(uri)
+        @base_redirect_uri = uri
+      end
+
+      def self.base_redirect_uri
+        @base_redirect_uri
       end
 
       def self.logger

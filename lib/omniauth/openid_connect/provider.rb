@@ -46,7 +46,7 @@ module OmniAuth
       end
 
       def custom_options
-        entries = self.class.custom_option_keys.map do |key|
+        entries = Providers.custom_option_keys.map do |key|
           name, optional = key.to_s.scan(/^([^\?]+)(\?)?$/).first
           name = name.to_sym
           value = optional ? config?(name) : config(name)
@@ -61,34 +61,8 @@ module OmniAuth
         @providers ||= Set.new
       end
 
-      ##
-      # Sets custom options that may be configured for a provider.
-      # If a key ends with a '?' it is optional, otherwise it is required.
-      #
-      # Example:
-      #
-      #     # Enable custom options. Display name is required and icon is optional.
-      #     Provider.custom_options = [:display_name, :icon?]
-      #
-      # @param keys [Array] List of symbols indicating required or optional custom options.
-      def self.custom_option_keys=(keys)
-        @custom_option_keys = keys
-      end
-
-      def self.custom_option_keys
-        @custom_option_keys ||= []
-      end
-
       def self.inherited(subclass)
         all << subclass
-      end
-
-      def self.base_redirect_uri=(uri)
-        @base_redirect_uri = uri
-      end
-
-      def self.base_redirect_uri
-        @base_redirect_uri
       end
 
       def client_options
@@ -129,7 +103,7 @@ module OmniAuth
       end
 
       def default_redirect_uri
-        base = self.class.base_redirect_uri
+        base = Providers.base_redirect_uri
 
         base.gsub(/\/$/, '') + redirect_path if base
       end
