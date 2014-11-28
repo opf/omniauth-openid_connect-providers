@@ -13,11 +13,13 @@ module OmniAuth::OpenIDConnect
     end
 
     def client_options
-      super.merge({
+      opts = {
         :authorization_endpoint => "/o/oauth2/auth",
         :token_endpoint => "/o/oauth2/token",
         :userinfo_endpoint => "https://www.googleapis.com/plus/v1/people/me/openIdConnect"
-      })
+      }
+
+      opts.merge super
     end
   end
 end
