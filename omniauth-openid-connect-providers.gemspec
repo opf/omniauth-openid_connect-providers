@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Finn GmbH"]
   spec.email         = ["info@finn.de"]
   spec.summary       = %q{Offers a means to configure OmniAuth OpenIDConnect providers comfortably.}
-  spec.homepage      = ""
+  spec.homepage      = "https://github.com/finnlabs/omniauth-openid-connect-providers"
   spec.license       = "GPLv3"
 
   spec.files         = `git ls-files`.split($/)
