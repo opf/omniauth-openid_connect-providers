@@ -16,6 +16,14 @@ describe OmniAuth::OpenIDConnect::Providers do
         'google.staging' => {
           identifier: 'cowboy',
           secret: 'hat'
+        },
+        'invalid.key.format' => {
+          identifier: 'foo',
+          secret: 'bar'
+        },
+        'nonexistant.provider_class' => {
+          identifier: 'baz',
+          secret: 'boo'
         }
       }
     end
@@ -24,6 +32,10 @@ describe OmniAuth::OpenIDConnect::Providers do
 
     before do
       OmniAuth::OpenIDConnect::Providers.configure base_redirect_uri: 'https://example.net'
+    end
+
+    it 'returns 3 providers ignoring an invalid one and one that could not be found' do
+      expect(providers.size).to eq 3
     end
 
     it 'returns one default provider named test' do
