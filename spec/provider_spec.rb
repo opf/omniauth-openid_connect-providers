@@ -143,9 +143,37 @@ describe OmniAuth::OpenIDConnect::Provider do
       end
 
       let(:provider) { OmniAuth::OpenIDConnect::Provider.new 'foo', config }
+      let(:options) { Hash(provider.to_h[:client_options]) }
 
       before do
-        OmniAuth::OpenIDConnect::Providers.configure base_redirect_uri: 'https://example.net', custom_options: []
+        OmniAuth::OpenIDConnect::Providers.configure base_redirect_uri: 'https://example.net',
+                                                     custom_options: []
+      end
+
+      it('include scheme')     { expect(options[:scheme]).to     eq 'ftp' }
+      it('include host')       { expect(options[:host]).to       eq 'example.net' }
+      it('include port')       { expect(options[:port]).to       eq 1234 }
+      it('include identifier') { expect(options[:identifier]).to eq 'chorizo' }
+      it('include secret')     { expect(options[:secret]).to     eq 'fat' }
+
+      context 'with extra keys (e.g. endpoints)' do
+        before do
+          config.merge! authorization_endpoint: '/autorisation',
+                        token_endpoint: '/tokenz',
+                        userinfo_endpoint: '/bros'
+        end
+
+        it('include the authorization_endpoint') do
+          expect(options[:authorization_endpoint]).to eq '/autorisation'
+        end
+
+        it('include the token_endpoint') do
+          expect(options[:token_endpoint]).to eq '/tokenz'
+        end
+
+        it('include the userinfo_endpoint') do
+          expect(options[:userinfo_endpoint]).to eq '/bros'
+        end
       end
     end
   end
