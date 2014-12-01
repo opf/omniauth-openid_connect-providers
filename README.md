@@ -7,12 +7,16 @@ It comes with preconfigured providers for Heroku and Google which take care of t
 
 Add this line to your application's Gemfile:
 
-    gem 'omniauth-openid_connect-providers', git: 'git@github.com:finnlabs/omniauth-openid_connect-providers.git',
-                                             branch: 'dev'
+```ruby
+gem 'omniauth-openid_connect-providers', git: 'git@github.com:finnlabs/omniauth-openid_connect-providers.git',
+                                         branch: 'dev'
+```
 
 And then execute:
 
     $ bundle
+
+While used in conjunction with `openid_connect` it does not technically depend on it.
 
 ## Usage
 
