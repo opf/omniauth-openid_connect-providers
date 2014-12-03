@@ -6,7 +6,7 @@ module OmniAuth
     #
     # To get the final OmniAuth provider option hash simply use #to_h.
     class Provider
-      attr_reader :name, :configuration
+      attr_reader :name, :configuration, :base_redirect_uri, :custom_option_keys
 
       ##
       # Creates a new provider instance used to configure an OmniAuth provider for
@@ -15,9 +15,16 @@ module OmniAuth
       # @param name [String] Provider name making it available under
       #                      /auth/<name>/callback by default.
       # @param config [Hash] Hash containing the configuration for this provider as a flat hash.
-      def initialize(name, config)
+      # @param base_redirect_uri [String] Base URI for a generated redirect URI in case no explicit
+      #                                   configuration is present.
+      # @param custom_options [Array] List of symbols declaring custom configuration keys.
+      def initialize(name, config,
+                     base_redirect_uri: Providers.base_redirect_uri,
+                     custom_options: Providers.custom_option_keys)
         @name = name
         @configuration = symbolize_keys config
+        @base_redirect_uri = base_redirect_uri
+        @custom_option_keys = custom_options
       end
 
       def to_h
@@ -46,7 +53,7 @@ module OmniAuth
       end
 
       def custom_options
-        entries = Providers.custom_option_keys.map do |key|
+        entries = custom_option_keys.map do |key|
           name, optional = key.to_s.scan(/^([^\?]+)(\?)?$/).first
           name = name.to_sym
           value = optional ? config?(name) : config(name)
@@ -104,9 +111,7 @@ module OmniAuth
       end
 
       def default_redirect_uri
-        base = Providers.base_redirect_uri
-
-        base.gsub(/\/$/, '') + redirect_path if base
+        base_redirect_uri.gsub(/\/$/, '') + redirect_path if base_redirect_uri
       end
 
       private

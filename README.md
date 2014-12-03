@@ -75,7 +75,17 @@ OmniAuth::OpenIDConnect::Providers.configure base_redirect_uri: 'https://example
 
 This way you can also omit the redirect URI in the provider specific configuration.
 The default redirect URI is constructed using the base URI. If your provider's redirect URI
-is different from the default (`/auth/<name>/callback`) you can still override it on a per-provider basis.
+is different from the default (`/auth/<name>/callback`) you can still override it on a per-provider basis
+either directly in the configuration or as an option.
+
+```ruby
+p = OmniAuth::OpenIDConnect::Provider.new 'test', config, base_redirect_uri: 'https://example.net'
+```
+
+This way the configuration can omit the redirect URI and instead one will be generated using the default schema
+which results in `https://example.net/auth/test/callback` here.
+The difference to configuring the base redirect URI via `Providers` is that it is not global but only applies
+to the created provider instance.
 
 ### Custom Options
 

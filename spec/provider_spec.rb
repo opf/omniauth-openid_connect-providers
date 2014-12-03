@@ -39,6 +39,23 @@ describe OmniAuth::OpenIDConnect::Provider do
               .to eq 'https://freelunch.com/oidc/test/callback'
           end
         end
+
+        context 'with specific base redirect uri' do
+          let(:provider) do
+            OmniAuth::OpenIDConnect::Provider.new 'test',
+                                                  config,
+                                                  base_redirect_uri:  'https://freelunch.com/'
+          end
+
+          it 'does not fail due to a missing redirect uri' do
+            expect{provider.to_h}.not_to raise_error
+          end
+
+          it 'is the configured uri' do
+            expect(provider.to_h[:client_options][:redirect_uri])
+              .to eq 'https://freelunch.com/auth/test/callback'
+          end
+        end
       end
 
       context 'with base redirect_uri' do
