@@ -1,3 +1,5 @@
+require 'omniauth/strategies/openid_connect'
+
 module OmniAuth
   module OpenIDConnect
     ##
@@ -38,16 +40,20 @@ module OmniAuth
           client_options: client_options
         }
 
-        opts.merge(custom_options)
+        other_options = option_keys
+          .map { |key|
+            [key, config?(key)]
+          }
+          .reject { |_, value| value.nil? }
+
+        Hash[other_options]
+          .merge(custom_options)
+          .merge(opts)
       end
 
-      def required_client_options
+      def client_option_override
         {
-          port:         443,
-          scheme:       'https',
           host:         host,
-          identifier:   identifier,
-          secret:       secret,
           redirect_uri: redirect_uri
         }
       end
@@ -73,15 +79,12 @@ module OmniAuth
       end
 
       def client_options
-        # keys excluded either because they are already configured or
-        # because they are not client options
-        excluded_keys = [:identifier, :secret, :redirect_uri, :host] + custom_options.keys
-        entries = configuration
-          .reject { |key, value| excluded_keys.include? key.to_sym }
-          .map { |key, value| [key.to_sym, value] }
+        entries = client_option_keys
+          .map { |key| [key.to_sym, config?(key)] }
+          .reject { |_, value| value.nil? }
 
         # override with configuration
-        ensure_client_option_types! required_client_options.merge(Hash[entries])
+        ensure_client_option_types! Hash[entries].merge(client_option_override)
       end
 
       def host
@@ -159,6 +162,18 @@ module OmniAuth
       def symbolize_keys(hash)
         entries = hash.map { |key, value| [key.to_s.to_sym, value] }
         Hash[entries]
+      end
+
+      def client_option_keys
+        Hash(default_options[:client_options]).keys.map(&:to_sym)
+      end
+
+      def option_keys
+        (default_options.keys - ['client_options']).map(&:to_sym)
+      end
+
+      def default_options
+        OmniAuth::Strategies::OpenIDConnect.default_options
       end
     end
   end
