@@ -120,7 +120,7 @@ module OmniAuth
       private
 
       def ensure_client_option_types!(opts)
-        opts[:port] = opts[:port].to_i
+        opts[:port] = opts[:port].to_i if opts[:port]
         opts
       end
 
