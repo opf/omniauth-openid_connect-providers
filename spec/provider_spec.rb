@@ -188,6 +188,16 @@ describe OmniAuth::OpenIDConnect::Provider do
           expect(options[:userinfo_endpoint]).to eq '/bros'
         end
       end
+
+      context 'with no port being configured' do
+        before do
+          config.delete(:port)
+        end
+
+        it 'defaults the port to nil' do
+          expect(options[:port]).to be_nil
+        end
+      end
     end
 
     describe 'host' do
