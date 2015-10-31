@@ -5,7 +5,7 @@ begin
 
   RSpec::Core::RakeTask.new :spec
 
-  task :default => :spec
+  task default: :spec
 rescue LoadError
-  puts "RSpec is unavailable."
+  puts 'RSpec is unavailable.'
 end

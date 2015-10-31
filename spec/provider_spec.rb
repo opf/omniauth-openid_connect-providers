@@ -20,7 +20,7 @@ describe OmniAuth::OpenIDConnect::Provider do
           let(:provider) { OmniAuth::OpenIDConnect::Provider.new 'test', config }
 
           it 'throws an ArgumentError because of the missing redirect_uri' do
-            expect{provider.to_h}.to raise_error(/configure redirect_uri/)
+            expect { provider.to_h }.to raise_error(/configure redirect_uri/)
           end
         end
 
@@ -31,7 +31,7 @@ describe OmniAuth::OpenIDConnect::Provider do
           end
 
           it 'does not fail due to a missing redirect uri' do
-            expect{provider.to_h}.not_to raise_error
+            expect { provider.to_h }.not_to raise_error
           end
 
           it 'is the configured uri' do
@@ -48,7 +48,7 @@ describe OmniAuth::OpenIDConnect::Provider do
           end
 
           it 'does not fail due to a missing redirect uri' do
-            expect{provider.to_h}.not_to raise_error
+            expect { provider.to_h }.not_to raise_error
           end
 
           it 'is the configured uri' do
@@ -66,7 +66,7 @@ describe OmniAuth::OpenIDConnect::Provider do
         let(:provider) { OmniAuth::OpenIDConnect::Provider.new 'test', config }
 
         it 'includes the correctly constructed callback URL' do
-          expect{provider.to_h}.not_to raise_error
+          expect { provider.to_h }.not_to raise_error
           expect(provider.to_h[:client_options][:redirect_uri])
             .to eq 'https://umpalum.pa/auth/test/callback'
         end
@@ -110,7 +110,7 @@ describe OmniAuth::OpenIDConnect::Provider do
 
         context 'without configured display name' do
           it 'throws an ArgumentError due to the missing, required display name' do
-            expect{provider.to_h}.to raise_error(/configure display_name/)
+            expect { provider.to_h }.to raise_error(/configure display_name/)
           end
         end
 
@@ -151,7 +151,7 @@ describe OmniAuth::OpenIDConnect::Provider do
           scheme: 'ftp',
           host: 'example.net',
           identifier: 'chorizo',
-          secret: 'fat',
+          secret: 'fat'
         }
       end
 
@@ -163,11 +163,11 @@ describe OmniAuth::OpenIDConnect::Provider do
                                                      custom_options: []
       end
 
-      it('include scheme')     { expect(options[:scheme]).to     eq 'ftp' }
-      it('include host')       { expect(options[:host]).to       eq 'example.net' }
-      it('include port')       { expect(options[:port]).to       eq 1234 }
+      it('include scheme')     { expect(options[:scheme]).to eq 'ftp' }
+      it('include host')       { expect(options[:host]).to eq 'example.net' }
+      it('include port')       { expect(options[:port]).to eq 1234 }
       it('include identifier') { expect(options[:identifier]).to eq 'chorizo' }
-      it('include secret')     { expect(options[:secret]).to     eq 'fat' }
+      it('include secret')     { expect(options[:secret]).to eq 'fat' }
 
       context 'with extra keys (e.g. endpoints)' do
         before do
@@ -213,7 +213,7 @@ describe OmniAuth::OpenIDConnect::Provider do
 
       context 'with missing host' do
         it 'throws an ArgumentError due to the missing host' do
-          expect{options}.to raise_error(/configure host/)
+          expect { options }.to raise_error(/configure host/)
         end
       end
 

@@ -13,7 +13,7 @@ module OmniAuth
       ##
       # Configures certain global provider settings. (optional)
       def self.configure(base_redirect_uri: self.base_redirect_uri,
-                         custom_options: self.custom_option_keys)
+                         custom_options: custom_option_keys)
         self.base_redirect_uri = base_redirect_uri
         self.custom_option_keys = custom_options
       end
