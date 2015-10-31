@@ -41,10 +41,10 @@ module OmniAuth
         }
 
         other_options = option_keys
-          .map { |key|
-            [key, config?(key)]
-          }
-          .reject { |_, value| value.nil? }
+                        .map do |key|
+          [key, config?(key)]
+        end
+                        .reject { |_, value| value.nil? }
 
         Hash[other_options]
           .merge(custom_options)
@@ -80,8 +80,8 @@ module OmniAuth
 
       def client_options
         entries = client_option_keys
-          .map { |key| [key.to_sym, config?(key)] }
-          .reject { |_, value| value.nil? }
+                  .map { |key| [key.to_sym, config?(key)] }
+                  .reject { |_, value| value.nil? }
 
         # override with configuration
         ensure_client_option_types! Hash[entries].merge(client_option_override)
