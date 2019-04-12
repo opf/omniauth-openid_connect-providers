@@ -1,11 +1,11 @@
 module OmniAuth::OpenIDConnect
   class Azure < Provider
     def host
-      config?("host") || "login.microsoftonline.com"
+      config?(:host) || "login.microsoftonline.com"
     end
 
     def tenant
-      config?("tenant") || "common"
+      config?(:tenant) || "common"
     end
 
     def secret
