@@ -26,7 +26,7 @@ module OmniAuth::OpenIDConnect
         :userinfo_endpoint => "/#{tenant}/openid/userinfo",
       }
 
-      opts.merge super
+      opts.merge(super).merge(:secret => secret)
     end
   end
 end
