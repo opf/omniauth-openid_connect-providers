@@ -62,7 +62,11 @@ module OmniAuth
         entries = custom_option_keys.map do |key|
           name, optional = key.to_s.scan(/^([^\?]+)(\?)?$/).first
           name = name.to_sym
-          value = optional ? config?(name) : config(name)
+          value = if optional
+            config?(name) || try(name)
+          else
+            config(name)
+          end
 
           [name, value]
         end

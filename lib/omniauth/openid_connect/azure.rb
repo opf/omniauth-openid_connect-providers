@@ -8,6 +8,10 @@ module OmniAuth::OpenIDConnect
       config?(:tenant) || "common"
     end
 
+    def icon
+      config?(:icon) || "openid_connect/auth_provider-azure.png"
+    end
+
     def secret
       original_secret = super
       # Azure secret must be url-encoded, so let's check for any non-url safe characters.
