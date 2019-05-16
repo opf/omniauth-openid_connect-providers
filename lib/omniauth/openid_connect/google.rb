@@ -4,6 +4,10 @@ module OmniAuth::OpenIDConnect
       config?('host') || "accounts.google.com"
     end
 
+    def icon
+      config?(:icon) || "openid_connect/auth_provider-google.png"
+    end
+
     def options
       super.merge({
         :client_auth_method => :not_basic,

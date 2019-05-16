@@ -4,6 +4,10 @@ module OmniAuth::OpenIDConnect
       config?('host') || "connect-op.heroku.com"
     end
 
+    def icon
+      config?(:icon) || "openid_connect/auth_provider-heroku.png"
+    end
+
     def client_options
       opts = {
         :authorization_endpoint => "/authorizations/new",
