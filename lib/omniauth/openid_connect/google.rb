@@ -1,7 +1,7 @@
 module OmniAuth::OpenIDConnect
   class Google < Provider
     def host
-      config?('host') || "accounts.google.com"
+      config?(:host) || "accounts.google.com"
     end
 
     def icon

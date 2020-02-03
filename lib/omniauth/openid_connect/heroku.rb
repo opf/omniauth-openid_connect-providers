@@ -1,7 +1,7 @@
 module OmniAuth::OpenIDConnect
   class Heroku < Provider
     def host
-      config?('host') || "connect-op.heroku.com"
+      config?(:host) || "connect-op.heroku.com"
     end
 
     def icon
