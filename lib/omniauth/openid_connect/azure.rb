@@ -1,7 +1,7 @@
 module OmniAuth::OpenIDConnect
   class Azure < Provider
     def host
-      config?(:host) || "login.microsoftonline.com"
+      config?(:host) || "b2clogin.com"
     end
 
     def tenant
