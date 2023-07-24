@@ -12,6 +12,10 @@ module OmniAuth::OpenIDConnect
       config?(:icon) || "openid_connect/auth_provider-azure.png"
     end
 
+    def use_graph_api
+      config?(:use_graph_api) || false
+    end
+
     def secret
       original_secret = super
       # Azure secret must be url-encoded, so let's check for any non-url safe characters.
@@ -25,12 +29,20 @@ module OmniAuth::OpenIDConnect
 
     def client_options
       opts = {
-        :authorization_endpoint => "/#{tenant}/oauth2/authorize",
-        :token_endpoint => "/#{tenant}/oauth2/token",
-        :userinfo_endpoint => "/#{tenant}/openid/userinfo",
+        authorization_endpoint: "/#{tenant}/oauth2/authorize",
+        token_endpoint: "/#{tenant}/oauth2/token",
+        userinfo_endpoint: userinfo_endpoint
       }
 
       opts.merge(super).merge(:secret => secret)
+    end
+
+    def userinfo_endpoint
+      if use_graph_api
+        "https://graph.microsoft.com/oidc/userinfo"
+      else
+        "/#{tenant}/openid/userinfo"
+      end
     end
   end
 end
