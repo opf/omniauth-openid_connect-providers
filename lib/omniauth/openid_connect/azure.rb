@@ -28,9 +28,11 @@ module OmniAuth::OpenIDConnect
     end
 
     def client_options
+      v2_switch = tenant == 'common' ? '' : 'v2.0/'
+
       opts = {
-        authorization_endpoint: "/#{tenant}/oauth2/authorize",
-        token_endpoint: "/#{tenant}/oauth2/token",
+        authorization_endpoint: "/#{tenant}/oauth2/#{v2_switch}authorize",
+        token_endpoint: "/#{tenant}/oauth2/#{v2_switch}token",
         userinfo_endpoint: userinfo_endpoint
       }
 
